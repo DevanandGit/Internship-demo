@@ -24,7 +24,10 @@ public class FeedbackResponse
 {
     public int Id { get; set; }
     public int InternshipId { get; set; }
+    public string? InternshipName { get; set; }
     public int StudentUserId { get; set; }
+    public string? StudentName { get; set; }
+    public string? StudentEmail { get; set; }
     public int Rating { get; set; }
     public string? Comments { get; set; }
     public DateTime SubmittedAtUtc { get; set; }

@@ -54,7 +54,7 @@
             Handles internship browsing, application, review, and admin maintenance operations.
             </summary>
         </member>
-        <member name="M:InternshipPortal.Controllers.InternshipsController.GetAll(System.Threading.CancellationToken)">
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets all internships.
             </summary>
@@ -64,7 +64,7 @@
             Gets a single internship by its identifier.
             </summary>
         </member>
-        <member name="M:InternshipPortal.Controllers.InternshipsController.GetEligible(System.Threading.CancellationToken)">
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetEligible(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets internships that the current student is eligible for.
             </summary>
@@ -79,9 +79,10 @@
             Applies the current student to an internship.
             </summary>
         </member>
-        <member name="M:InternshipPortal.Controllers.InternshipsController.GetApplicationsByInternship(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetApplications(System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
-            Gets all applications for a specific internship.
+            Gets all internship applications (admin). Can be filtered by internshipId via query string.
+            Example: GET /api/internships/applications or GET /api/internships/applications?internshipId=5
             </summary>
         </member>
         <member name="M:InternshipPortal.Controllers.InternshipsController.ApproveApplication(System.Int32,InternshipPortal.DTOs.ReviewApplicationRequest,System.Threading.CancellationToken)">

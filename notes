@@ -1,0 +1,4 @@
+create angular frontend for the asp.net backend application. the angular project should ng serve. 
+here i am developing web app for both admin and user. create registration page for students, login page. page to display internships, profile page. profile page should contain reset and change passwords functionality and should list all the data appearing on the profile api. add proper validations on the registration and login forms. all api calls should be defined on a single service file. 
+
+when the user logges in is admin, they should be redirected to the admin dashboard where they can see all the internships and applications. internship can be created there, edited and deleted. admin can also approve or reject applications from the dashboard. admin can see all the feedbacks. skills can be added, edited and deleted from the admin dashboard. feedback timer can be set from the admin dashboard. 

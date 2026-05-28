@@ -21,15 +21,16 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
     /// </summary>
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<Internship>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<PagedResponse<Internship>>> GetAll(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
-        var internships = await context.Internships
-            .AsNoTracking()
-            .Include(item => item.StudentsApplied)
-            .OrderBy(item => item.Id)
-            .ToListAsync(cancellationToken);
-
-        return Ok(internships);
+        return Ok(await GetPagedInternshipsAsync(
+            context.Internships.AsNoTracking().Include(item => item.StudentsApplied),
+            pageNumber,
+            pageSize,
+            cancellationToken));
     }
 
     /// <summary>
@@ -52,7 +53,10 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
     /// </summary>
     [HttpGet("eligible")]
     [Authorize(Roles = nameof(UserRole.Student))]
-    public async Task<ActionResult<IEnumerable<Internship>>> GetEligible(CancellationToken cancellationToken)
+    public async Task<ActionResult<PagedResponse<Internship>>> GetEligible(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (!int.TryParse(userIdClaim, out var userId))
@@ -73,17 +77,17 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
         var studentCgpa = student.StudentProfile.Cgpa;
         var studentBacklogs = student.StudentProfile.BacklogsCount;
 
-        var internships = await context.Internships
+        var eligibleInternships = await context.Internships
             .AsNoTracking()
             .Include(item => item.StudentsApplied)
-        .ToListAsync(cancellationToken);
-
-        var eligibleInternships = internships
-            .Where(item => IsEligibleForInternship(item, studentCgpa, studentBacklogs))
             .OrderBy(item => item.Id)
+            .ToListAsync(cancellationToken);
+
+        var filtered = eligibleInternships
+            .Where(item => IsEligibleForInternship(item, studentCgpa, studentBacklogs))
             .ToList();
 
-        return Ok(eligibleInternships);
+        return Ok(CreatePagedResponse(filtered, pageNumber, pageSize));
     }
 
     /// <summary>
@@ -194,23 +198,29 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
     }
 
     /// <summary>
-    /// Gets all applications for a specific internship.
+    /// Gets all internship applications (admin). Can be filtered by internshipId via query string.
+    /// Example: GET /api/internships/applications or GET /api/internships/applications?internshipId=5
     /// </summary>
-    [HttpGet("{internshipId:int}/applications")]
+    [HttpGet("applications")]
     [Authorize(Roles = nameof(UserRole.Admin))]
-    public async Task<ActionResult<IEnumerable<AppliedStudentResponse>>> GetApplicationsByInternship(int internshipId, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<AppliedStudentResponse>>> GetApplications([FromQuery] int? internshipId, CancellationToken cancellationToken)
     {
-        var applications = await context.InternshipApplications
+        var query = context.InternshipApplications
             .AsNoTracking()
             .Include(item => item.StudentUser)
                 .ThenInclude(item => item.StudentProfile)
-            .Where(item => item.InternshipId == internshipId)
-            .OrderBy(item => item.Id)
-            .ToListAsync(cancellationToken);
+            .AsQueryable();
 
-        if (applications.Count == 0)
+        if (internshipId.HasValue)
         {
-            var internshipExists = await context.Internships.AnyAsync(item => item.Id == internshipId, cancellationToken);
+            query = query.Where(item => item.InternshipId == internshipId.Value);
+        }
+
+        var applications = await query.OrderBy(item => item.Id).ToListAsync(cancellationToken);
+
+        if (applications.Count == 0 && internshipId.HasValue)
+        {
+            var internshipExists = await context.Internships.AnyAsync(item => item.Id == internshipId.Value, cancellationToken);
             if (!internshipExists)
             {
                 return NotFound(new { message = "Internship not found." });
@@ -338,9 +348,9 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
     /// <summary>
     /// Updates an existing internship.
     /// </summary>
-    [HttpPut("{id:int}")]
+    [HttpPatch("{id:int}")]
     [Authorize(Roles = nameof(UserRole.Admin))]
-    public async Task<IActionResult> Update(int id, InternshipRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<Internship>> Update(int id, InternshipRequest request, CancellationToken cancellationToken)
     {
         var internship = await context.Internships
             .Include(item => item.StudentsApplied)
@@ -368,7 +378,7 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
         }
 
         await context.SaveChangesAsync(cancellationToken);
-        return NoContent();
+        return Ok(internship);
     }
 
     /// <summary>
@@ -386,7 +396,7 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
 
         context.Internships.Remove(internship);
         await context.SaveChangesAsync(cancellationToken);
-        return NoContent();
+        return Ok(new { message = "Internship deleted successfully." });
     }
     private static bool IsEligibleForInternship(Internship internship, decimal? studentCgpa, int? studentBacklogs)
     {
@@ -394,5 +404,52 @@ public class InternshipsController(ApplicationDbContext context, IEmailService e
         var backlogMatches = !internship.BacklogsCount.HasValue || !studentBacklogs.HasValue || studentBacklogs <= internship.BacklogsCount;
 
         return cgpaMatches || backlogMatches;
+    }
+
+    private static PagedResponse<Internship> CreatePagedResponse(List<Internship> items, int pageNumber, int pageSize)
+    {
+        var safePageNumber = pageNumber < 1 ? 1 : pageNumber;
+        var safePageSize = pageSize < 1 ? 10 : pageSize;
+        var totalCount = items.Count;
+        var totalPages = totalCount == 0 ? 0 : (int)Math.Ceiling(totalCount / (double)safePageSize);
+        var pageItems = items
+            .Skip((safePageNumber - 1) * safePageSize)
+            .Take(safePageSize)
+            .ToList();
+
+        return new PagedResponse<Internship>
+        {
+            Items = pageItems,
+            PageNumber = safePageNumber,
+            PageSize = safePageSize,
+            TotalCount = totalCount,
+            TotalPages = totalPages
+        };
+    }
+
+    private static async Task<PagedResponse<Internship>> GetPagedInternshipsAsync(
+        IQueryable<Internship> query,
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken)
+    {
+        var safePageNumber = pageNumber < 1 ? 1 : pageNumber;
+        var safePageSize = pageSize < 1 ? 10 : pageSize;
+        var totalCount = await query.CountAsync(cancellationToken);
+        var totalPages = totalCount == 0 ? 0 : (int)Math.Ceiling(totalCount / (double)safePageSize);
+        var items = await query
+            .OrderBy(item => item.Id)
+            .Skip((safePageNumber - 1) * safePageSize)
+            .Take(safePageSize)
+            .ToListAsync(cancellationToken);
+
+        return new PagedResponse<Internship>
+        {
+            Items = items,
+            PageNumber = safePageNumber,
+            PageSize = safePageSize,
+            TotalCount = totalCount,
+            TotalPages = totalPages
+        };
     }
 }

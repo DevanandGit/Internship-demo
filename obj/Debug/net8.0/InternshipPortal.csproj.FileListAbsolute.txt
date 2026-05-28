@@ -121,3 +121,11 @@
 /Users/dejo/Desktop/InternshipPortal/Internship/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.InternshipPortal.props
 /Users/dejo/Desktop/InternshipPortal/Internship/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.InternshipPortal.props
 /Users/dejo/Desktop/InternshipPortal/Internship/obj/Debug/net8.0/staticwebassets.pack.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/angular.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/dist/internship-frontend/prerendered-routes.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/package-lock.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/package.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/proxy.conf.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/tsconfig.app.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/tsconfig.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/tsconfig.spec.json

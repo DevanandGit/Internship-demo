@@ -61,18 +61,17 @@ public class FeedbackController(ApplicationDbContext context) : ControllerBase
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (!int.TryParse(userIdClaim, out var userId)) return Unauthorized();
 
-        // Check timer
-        var timer = await context.FeedbackTimers.FirstOrDefaultAsync(ft => ft.InternshipId == internshipId, cancellationToken);
-        if (timer is null) return BadRequest(new { message = "Feedback window not configured for this internship." });
-
-        var now = DateTime.UtcNow;
-        if (now < timer.StartUtc || now > timer.EndUtc) return BadRequest(new { message = "Feedback window is closed." });
-
         // Ensure student is an approved applicant for this internship
         var application = await context.InternshipApplications.FirstOrDefaultAsync(a => a.InternshipId == internshipId && a.StudentUserId == userId, cancellationToken);
         if (application is null || application.Status != ApplicationStatus.Approved)
         {
             return Forbid();
+        }
+
+        var internship = await context.Internships.FirstOrDefaultAsync(item => item.Id == internshipId, cancellationToken);
+        if (internship is null)
+        {
+            return NotFound(new { message = "Internship not found." });
         }
 
         // Prevent duplicate feedback
@@ -95,7 +94,10 @@ public class FeedbackController(ApplicationDbContext context) : ControllerBase
         {
             Id = feedback.Id,
             InternshipId = feedback.InternshipId,
+            InternshipName = internship.Name,
             StudentUserId = feedback.StudentUserId,
+            StudentName = null,
+            StudentEmail = null,
             Rating = feedback.Rating,
             Comments = feedback.Comments,
             SubmittedAtUtc = feedback.SubmittedAtUtc
@@ -106,25 +108,49 @@ public class FeedbackController(ApplicationDbContext context) : ControllerBase
 
     [HttpGet("/api/feedbacks")]
     [Authorize(Roles = nameof(UserRole.Admin))]
-    public async Task<ActionResult<IEnumerable<FeedbackResponse>>> ListAll([FromQuery] int? internshipId, CancellationToken cancellationToken)
+    public async Task<ActionResult<PagedResponse<FeedbackResponse>>> ListAll(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] int? internshipId = null,
+        CancellationToken cancellationToken = default)
     {
-        var query = context.Feedbacks.AsNoTracking().AsQueryable();
+        var query = context.Feedbacks
+            .AsNoTracking()
+            .Include(item => item.Internship)
+            .Include(item => item.StudentUser)
+            .AsQueryable();
         if (internshipId.HasValue)
         {
             query = query.Where(f => f.InternshipId == internshipId.Value);
         }
 
-        var items = await query.OrderBy(f => f.Id).ToListAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
+        var totalPages = (int)Math.Ceiling(totalCount / (double)Math.Max(1, pageSize));
+        var items = await query
+            .OrderByDescending(f => f.SubmittedAtUtc)
+            .Skip((Math.Max(1, pageNumber) - 1) * Math.Max(1, pageSize))
+            .Take(Math.Max(1, pageSize))
+            .ToListAsync(cancellationToken);
 
-        var response = items.Select(f => new FeedbackResponse
+        var response = new PagedResponse<FeedbackResponse>
         {
-            Id = f.Id,
-            InternshipId = f.InternshipId,
-            StudentUserId = f.StudentUserId,
-            Rating = f.Rating,
-            Comments = f.Comments,
-            SubmittedAtUtc = f.SubmittedAtUtc
-        });
+            Items = items.Select(f => new FeedbackResponse
+            {
+                Id = f.Id,
+                InternshipId = f.InternshipId,
+                InternshipName = f.Internship?.Name,
+                StudentUserId = f.StudentUserId,
+                StudentName = f.StudentUser?.Name,
+                StudentEmail = f.StudentUser?.Email,
+                Rating = f.Rating,
+                Comments = f.Comments,
+                SubmittedAtUtc = f.SubmittedAtUtc
+            }).ToList(),
+            PageNumber = Math.Max(1, pageNumber),
+            PageSize = Math.Max(1, pageSize),
+            TotalCount = totalCount,
+            TotalPages = totalPages
+        };
 
         return Ok(response);
     }
