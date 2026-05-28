@@ -1,0 +1,10 @@
+{
+  "routes": {
+    "/": {},
+    "/forgot-password": {},
+    "/internships": {},
+    "/login": {},
+    "/profile": {},
+    "/register": {}
+  }
+}
