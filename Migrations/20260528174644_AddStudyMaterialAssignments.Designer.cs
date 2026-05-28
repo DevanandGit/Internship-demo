@@ -4,6 +4,7 @@ using InternshipPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InternshipPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260528174644_AddStudyMaterialAssignments")]
+    partial class AddStudyMaterialAssignments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,64 +38,6 @@ namespace InternshipPortal.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("ADMINPROFILE", (string)null);
-                });
-
-            modelBuilder.Entity("InternshipPortal.Models.Feedback", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comments")
-                        .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000)");
-
-                    b.Property<int>("InternshipId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentUserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("SubmittedAtUtc")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentUserId");
-
-                    b.HasIndex("InternshipId", "StudentUserId")
-                        .IsUnique();
-
-                    b.ToTable("FEEDBACKS", (string)null);
-                });
-
-            modelBuilder.Entity("InternshipPortal.Models.FeedbackTimer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndUtc")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("InternshipId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartUtc")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InternshipId");
-
-                    b.ToTable("FEEDBACKTIMERS", (string)null);
                 });
 
             modelBuilder.Entity("InternshipPortal.Models.Internship", b =>
@@ -365,36 +310,6 @@ namespace InternshipPortal.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("InternshipPortal.Models.Feedback", b =>
-                {
-                    b.HasOne("InternshipPortal.Models.Internship", "Internship")
-                        .WithMany()
-                        .HasForeignKey("InternshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InternshipPortal.Models.PortalUser", "StudentUser")
-                        .WithMany()
-                        .HasForeignKey("StudentUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Internship");
-
-                    b.Navigation("StudentUser");
-                });
-
-            modelBuilder.Entity("InternshipPortal.Models.FeedbackTimer", b =>
-                {
-                    b.HasOne("InternshipPortal.Models.Internship", "Internship")
-                        .WithMany()
-                        .HasForeignKey("InternshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Internship");
                 });
 
             modelBuilder.Entity("InternshipPortal.Models.InternshipApplication", b =>

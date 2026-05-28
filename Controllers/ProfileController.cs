@@ -32,6 +32,7 @@ public class ProfileController(ApplicationDbContext context) : ControllerBase
             .Include(item => item.StudentProfile)
             .Include(item => item.AdminProfile)
             .Include(item => item.Skills)
+            .Include(item => item.StudyMaterials)
             .Include(item => item.InternshipApplications)
                 .ThenInclude(item => item.Internship)
             .FirstOrDefaultAsync(item => item.Id == userId, cancellationToken);
@@ -59,6 +60,17 @@ public class ProfileController(ApplicationDbContext context) : ControllerBase
                 StreamBranch = user.StudentProfile.StreamBranch,
                 Skills = user.Skills.Select(item => item.StackName).ToList()
             };
+
+            response.StudentProfile.AssignedStudyMaterials = user.StudyMaterials
+                .OrderBy(sm => sm.Id)
+                .Select(sm => new InternshipPortal.DTOs.StudyMaterialResponse
+                {
+                    Id = sm.Id,
+                    Name = sm.Name,
+                    NoteUrl = sm.NoteUrl,
+                    VideoUrl = sm.VideoUrl
+                })
+                .ToList();
 
             response.AppliedInternships = user.InternshipApplications
                 .OrderBy(item => item.Id)

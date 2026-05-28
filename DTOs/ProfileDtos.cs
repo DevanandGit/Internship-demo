@@ -28,6 +28,7 @@ public sealed class StudentProfileResponse
     public string? StreamBranch { get; set; }
 
     public List<string> Skills { get; set; } = [];
+    public List<StudyMaterialResponse> AssignedStudyMaterials { get; set; } = [];
 }
 
 public sealed class AdminProfileResponse

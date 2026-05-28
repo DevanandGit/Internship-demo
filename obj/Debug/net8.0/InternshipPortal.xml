@@ -148,5 +148,41 @@
         <member name="M:InternshipPortal.Migrations.MigrationThree.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:InternshipPortal.Migrations.AddStudyMaterial">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddStudyMaterial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddStudyMaterial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddStudyMaterial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InternshipPortal.Migrations.AddStudyMaterialAssignments">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddStudyMaterialAssignments.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddStudyMaterialAssignments.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddStudyMaterialAssignments.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InternshipPortal.Migrations.AddFeedback">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddFeedback.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddFeedback.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.AddFeedback.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

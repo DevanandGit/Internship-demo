@@ -19,6 +19,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
 
+    public DbSet<StudyMaterial> StudyMaterials => Set<StudyMaterial>();
+    public DbSet<FeedbackTimer> FeedbackTimers => Set<FeedbackTimer>();
+    public DbSet<Feedback> Feedbacks => Set<Feedback>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -123,6 +127,25 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     join.HasKey("UserId", "SkillId");
                 });
 
+        modelBuilder.Entity<PortalUser>()
+            .HasMany(item => item.StudyMaterials)
+            .WithMany(item => item.AssignedTo)
+            .UsingEntity<Dictionary<string, object>>(
+                "StudentStudyMaterials",
+                right => right.HasOne<StudyMaterial>()
+                    .WithMany()
+                    .HasForeignKey("StudyMaterialId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                left => left.HasOne<PortalUser>()
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                join =>
+                {
+                    join.ToTable("STUDENT_STUDYMATERIALS");
+                    join.HasKey("UserId", "StudyMaterialId");
+                });
+
         modelBuilder.Entity<StudentProfile>(entity =>
         {
             entity.ToTable("STUDENTPROFILE");
@@ -225,6 +248,66 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .WithMany()
                 .HasForeignKey(item => item.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<StudyMaterial>(entity =>
+        {
+            entity.ToTable("STUDYMATERIALS");
+
+            entity.HasKey(item => item.Id);
+
+            entity.Property(item => item.Name)
+                .HasMaxLength(200)
+                .IsRequired();
+
+            entity.Property(item => item.NoteUrl)
+                .HasMaxLength(1000)
+                .IsRequired(false);
+
+            entity.Property(item => item.VideoUrl)
+                .HasMaxLength(1000)
+                .IsRequired(false);
+        });
+
+        modelBuilder.Entity<FeedbackTimer>(entity =>
+        {
+            entity.ToTable("FEEDBACKTIMERS");
+
+            entity.HasKey(item => item.Id);
+
+            entity.Property(item => item.InternshipId).IsRequired();
+            entity.Property(item => item.StartUtc).IsRequired();
+            entity.Property(item => item.EndUtc).IsRequired();
+
+            entity.HasOne(item => item.Internship)
+                .WithMany()
+                .HasForeignKey(item => item.InternshipId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Feedback>(entity =>
+        {
+            entity.ToTable("FEEDBACKS");
+
+            entity.HasKey(item => item.Id);
+
+            entity.Property(item => item.InternshipId).IsRequired();
+            entity.Property(item => item.StudentUserId).IsRequired();
+            entity.Property(item => item.Rating).IsRequired();
+            entity.Property(item => item.Comments).HasMaxLength(2000).IsRequired(false);
+            entity.Property(item => item.SubmittedAtUtc).IsRequired();
+
+            entity.HasOne(item => item.Internship)
+                .WithMany()
+                .HasForeignKey(item => item.InternshipId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(item => item.StudentUser)
+                .WithMany()
+                .HasForeignKey(item => item.StudentUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasIndex(item => new { item.InternshipId, item.StudentUserId }).IsUnique();
         });
     }
 }

@@ -23,4 +23,6 @@ public class PortalUser
     public ICollection<InternshipApplication> InternshipApplications { get; set; } = new List<InternshipApplication>();
 
     public ICollection<InternshipApplication> ReviewedInternshipApplications { get; set; } = new List<InternshipApplication>();
+
+    public ICollection<StudyMaterial> StudyMaterials { get; set; } = new List<StudyMaterial>();
 }
