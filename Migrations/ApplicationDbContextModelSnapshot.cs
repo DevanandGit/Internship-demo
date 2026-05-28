@@ -17,7 +17,7 @@ namespace InternshipPortal.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.6")
+                .HasAnnotation("ProductVersion", "8.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -113,6 +113,38 @@ namespace InternshipPortal.Migrations
                         .IsUnique();
 
                     b.ToTable("INTERNSHIPAPPLICATIONS", (string)null);
+                });
+
+            modelBuilder.Entity("InternshipPortal.Models.PasswordResetToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ExpiresAtUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<DateTime?>("UsedAtUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PASSWORDRESETTOKENS", (string)null);
                 });
 
             modelBuilder.Entity("InternshipPortal.Models.PortalUser", b =>
@@ -260,6 +292,17 @@ namespace InternshipPortal.Migrations
                     b.Navigation("ReviewedByUser");
 
                     b.Navigation("StudentUser");
+                });
+
+            modelBuilder.Entity("InternshipPortal.Models.PasswordResetToken", b =>
+                {
+                    b.HasOne("InternshipPortal.Models.PortalUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("InternshipPortal.Models.StudentProfile", b =>

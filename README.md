@@ -12,7 +12,7 @@ An ASP.NET Core Web API scaffold for an internship portal backend, configured fo
 
 ## Prerequisites
 
-- .NET 9 SDK
+- .NET 8.0.421 SDK
 - A MySQL server
 
 ## Configuration

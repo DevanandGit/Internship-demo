@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InternshipPortal</name>
+    </assembly>
+    <members>
+        <member name="T:InternshipPortal.Controllers.AuthController">
+            <summary>
+            Handles authentication, registration, and password management endpoints.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.AuthController.#ctor(InternshipPortal.Data.ApplicationDbContext,Microsoft.Extensions.Configuration.IConfiguration,InternshipPortal.Services.IEmailService)">
+            <summary>
+            Handles authentication, registration, and password management endpoints.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.AuthController.RegisterStudent(InternshipPortal.DTOs.StudentRegistrationRequest,System.Threading.CancellationToken)">
+            <summary>
+            Registers a new student account and returns a JWT access token.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.AuthController.RegisterAdmin(InternshipPortal.DTOs.AdminRegistrationRequest,System.Threading.CancellationToken)">
+            <summary>
+            Registers a new admin account and returns a JWT access token.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.AuthController.Login(InternshipPortal.DTOs.LoginRequest,System.Threading.CancellationToken)">
+            <summary>
+            Authenticates a user and returns a JWT access token.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.AuthController.ForgotPassword(InternshipPortal.DTOs.ForgotPasswordRequest,System.Threading.CancellationToken)">
+            <summary>
+            Generates a password reset token and sends the reset link by email.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.AuthController.ResetPassword(InternshipPortal.DTOs.ResetPasswordRequest,System.Threading.CancellationToken)">
+            <summary>
+            Resets a password using a valid reset token.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.AuthController.ChangePassword(InternshipPortal.DTOs.ChangePasswordRequest,System.Threading.CancellationToken)">
+            <summary>
+            Changes the password for the currently authenticated user.
+            </summary>
+        </member>
+        <member name="T:InternshipPortal.Controllers.InternshipsController">
+            <summary>
+            Handles internship browsing, application, review, and admin maintenance operations.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.#ctor(InternshipPortal.Data.ApplicationDbContext,InternshipPortal.Services.IEmailService)">
+            <summary>
+            Handles internship browsing, application, review, and admin maintenance operations.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetAll(System.Threading.CancellationToken)">
+            <summary>
+            Gets all internships.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a single internship by its identifier.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetEligible(System.Threading.CancellationToken)">
+            <summary>
+            Gets internships that the current student is eligible for.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetApplied(System.Threading.CancellationToken)">
+            <summary>
+            Gets internships already applied to by the current student.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.Apply(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Applies the current student to an internship.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.GetApplicationsByInternship(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all applications for a specific internship.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.ApproveApplication(System.Int32,InternshipPortal.DTOs.ReviewApplicationRequest,System.Threading.CancellationToken)">
+            <summary>
+            Approves a pending internship application.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.RejectApplication(System.Int32,InternshipPortal.DTOs.ReviewApplicationRequest,System.Threading.CancellationToken)">
+            <summary>
+            Rejects a pending internship application.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.Create(InternshipPortal.DTOs.InternshipRequest,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new internship.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.Update(System.Int32,InternshipPortal.DTOs.InternshipRequest,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing internship.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.InternshipsController.Delete(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an internship.
+            </summary>
+        </member>
+        <member name="T:InternshipPortal.Controllers.ProfileController">
+            <summary>
+            Exposes the authenticated user's profile information.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.ProfileController.#ctor(InternshipPortal.Data.ApplicationDbContext)">
+            <summary>
+            Exposes the authenticated user's profile information.
+            </summary>
+        </member>
+        <member name="M:InternshipPortal.Controllers.ProfileController.GetMe(System.Threading.CancellationToken)">
+            <summary>
+            Gets the current user's profile.
+            </summary>
+        </member>
+        <member name="T:InternshipPortal.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InternshipPortal.Migrations.MigrationThree">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.MigrationThree.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.MigrationThree.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InternshipPortal.Migrations.MigrationThree.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

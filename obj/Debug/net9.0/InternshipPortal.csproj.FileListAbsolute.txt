@@ -134,16 +134,10 @@
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
-/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship-portal-ui/angular.json
-/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship-portal-ui/dist/internship-portal-ui/prerendered-routes.json
-/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship-portal-ui/package-lock.json
-/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship-portal-ui/package.json
-/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship-portal-ui/tsconfig.app.json
-/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship-portal-ui/tsconfig.json
-/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship-portal-ui/tsconfig.spec.json
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/internship.json
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/InternshipPortal.xml
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/dejo/Desktop/InternshipPortal/Internship/obj/Debug/net9.0/InternshipPortal.xml
+/Users/dejo/Desktop/InternshipPortal/Internship/obj/Debug/net9.0/InternshipPortal.sourcelink.json
