@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/dejo/Desktop/InternshipPortal/Internship/wwwroot/uploads/study-materials/notes/.gitkeep",
+      "PackagePath": "staticwebassets/uploads/study-materials/notes/.gitkeep"
+    },
+    {
+      "Id": "/Users/dejo/Desktop/InternshipPortal/Internship/wwwroot/uploads/study-materials/notes/40cecfc0ac784c4fa098f58da36c9253.txt",
+      "PackagePath": "staticwebassets/uploads/study-materials/notes/40cecfc0ac784c4fa098f58da36c9253.txt"
+    },
+    {
+      "Id": "/Users/dejo/Desktop/InternshipPortal/Internship/wwwroot/uploads/study-materials/videos/.gitkeep",
+      "PackagePath": "staticwebassets/uploads/study-materials/videos/.gitkeep"
+    },
+    {
+      "Id": "/Users/dejo/Desktop/InternshipPortal/Internship/wwwroot/uploads/study-materials/videos/a7e2ba4928c74e0fadc6191dc649327f.mp4",
+      "PackagePath": "staticwebassets/uploads/study-materials/videos/a7e2ba4928c74e0fadc6191dc649327f.mp4"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.InternshipPortal.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.InternshipPortal.props",
+      "PackagePath": "build\\InternshipPortal.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.InternshipPortal.props",
+      "PackagePath": "buildMultiTargeting\\InternshipPortal.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.InternshipPortal.props",
+      "PackagePath": "buildTransitive\\InternshipPortal.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

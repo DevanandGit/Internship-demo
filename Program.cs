@@ -104,6 +104,8 @@ if (hasHttpsEndpoint)
     app.UseHttpsRedirection();
 }
 
+app.UseStaticFiles();
+
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {

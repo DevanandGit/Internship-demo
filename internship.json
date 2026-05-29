@@ -1,20 +1,17 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "InternshipPortal | v1",
-        "version": "1.0.0"
+        "title": "Internship Portal API",
+        "description": "REST API for internship applications, profiles, authentication, and admin workflows.",
+        "version": "v1"
     },
-    "servers": [
-        {
-            "url": "http://localhost:5145/"
-        }
-    ],
     "paths": {
         "/api/auth/student/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
+                "summary": "Registers a new student account and returns a JWT access token.",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -32,8 +29,7 @@
                                 "$ref": "#/components/schemas/StudentRegistrationRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -64,6 +60,7 @@
                 "tags": [
                     "Auth"
                 ],
+                "summary": "Registers a new admin account and returns a JWT access token.",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -81,8 +78,7 @@
                                 "$ref": "#/components/schemas/AdminRegistrationRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -113,6 +109,7 @@
                 "tags": [
                     "Auth"
                 ],
+                "summary": "Authenticates a user and returns a JWT access token.",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -130,8 +127,7 @@
                                 "$ref": "#/components/schemas/LoginRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -162,6 +158,7 @@
                 "tags": [
                     "Auth"
                 ],
+                "summary": "Generates a password reset token and sends the reset link by email.",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -179,8 +176,7 @@
                                 "$ref": "#/components/schemas/ForgotPasswordRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -211,6 +207,7 @@
                 "tags": [
                     "Auth"
                 ],
+                "summary": "Resets a password using a valid reset token.",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -228,8 +225,7 @@
                                 "$ref": "#/components/schemas/ResetPasswordRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -260,6 +256,7 @@
                 "tags": [
                     "Auth"
                 ],
+                "summary": "Changes the password for the currently authenticated user.",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -277,8 +274,7 @@
                                 "$ref": "#/components/schemas/ChangePasswordRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -297,6 +293,181 @@
                             "text/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PasswordActionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/internships/{internshipId}/feedback/timer": {
+            "post": {
+                "tags": [
+                    "Feedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "internshipId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFeedbackTimerRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFeedbackTimerRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFeedbackTimerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackTimerResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackTimerResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackTimerResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/internships/{internshipId}/feedback": {
+            "post": {
+                "tags": [
+                    "Feedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "internshipId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFeedbackRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFeedbackRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFeedbackRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedbacks": {
+            "get": {
+                "tags": [
+                    "Feedback"
+                ],
+                "parameters": [
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "internshipId",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackResponsePagedResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackResponsePagedResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackResponsePagedResponse"
                                 }
                             }
                         }
@@ -309,32 +480,44 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Gets all internships.",
+                "parameters": [
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "content": {
                             "text/plain": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Internship"
-                                    }
+                                    "$ref": "#/components/schemas/InternshipPagedResponse"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Internship"
-                                    }
+                                    "$ref": "#/components/schemas/InternshipPagedResponse"
                                 }
                             },
                             "text/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Internship"
-                                    }
+                                    "$ref": "#/components/schemas/InternshipPagedResponse"
                                 }
                             }
                         }
@@ -345,6 +528,7 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Creates a new internship.",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -362,8 +546,7 @@
                                 "$ref": "#/components/schemas/InternshipRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -371,17 +554,17 @@
                         "content": {
                             "text/plain": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Internship2"
+                                    "$ref": "#/components/schemas/Internship"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Internship2"
+                                    "$ref": "#/components/schemas/Internship"
                                 }
                             },
                             "text/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Internship2"
+                                    "$ref": "#/components/schemas/Internship"
                                 }
                             }
                         }
@@ -394,6 +577,7 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Gets a single internship by its identifier.",
                 "parameters": [
                     {
                         "name": "id",
@@ -411,27 +595,28 @@
                         "content": {
                             "text/plain": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Internship2"
+                                    "$ref": "#/components/schemas/Internship"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Internship2"
+                                    "$ref": "#/components/schemas/Internship"
                                 }
                             },
                             "text/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Internship2"
+                                    "$ref": "#/components/schemas/Internship"
                                 }
                             }
                         }
                     }
                 }
             },
-            "put": {
+            "patch": {
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Updates an existing internship.",
                 "parameters": [
                     {
                         "name": "id",
@@ -460,12 +645,28 @@
                                 "$ref": "#/components/schemas/InternshipRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Internship"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Internship"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Internship"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -473,6 +674,7 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Deletes an internship.",
                 "parameters": [
                     {
                         "name": "id",
@@ -496,32 +698,44 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Gets internships that the current student is eligible for.",
+                "parameters": [
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "content": {
                             "text/plain": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Internship"
-                                    }
+                                    "$ref": "#/components/schemas/InternshipPagedResponse"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Internship"
-                                    }
+                                    "$ref": "#/components/schemas/InternshipPagedResponse"
                                 }
                             },
                             "text/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Internship"
-                                    }
+                                    "$ref": "#/components/schemas/InternshipPagedResponse"
                                 }
                             }
                         }
@@ -534,6 +748,7 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Gets internships already applied to by the current student.",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -572,6 +787,7 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Applies the current student to an internship.",
                 "parameters": [
                     {
                         "name": "internshipId",
@@ -590,16 +806,16 @@
                 }
             }
         },
-        "/api/internships/{internshipId}/applications": {
+        "/api/internships/applications": {
             "get": {
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Gets all internship applications (admin). Can be filtered by internshipId via query string.\r\nExample: GET /api/internships/applications or GET /api/internships/applications?internshipId=5",
                 "parameters": [
                     {
                         "name": "internshipId",
-                        "in": "path",
-                        "required": true,
+                        "in": "query",
                         "schema": {
                             "type": "integer",
                             "format": "int32"
@@ -644,6 +860,7 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Approves a pending internship application.",
                 "parameters": [
                     {
                         "name": "applicationId",
@@ -672,8 +889,7 @@
                                 "$ref": "#/components/schemas/ReviewApplicationRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -687,6 +903,7 @@
                 "tags": [
                     "Internships"
                 ],
+                "summary": "Rejects a pending internship application.",
                 "parameters": [
                     {
                         "name": "applicationId",
@@ -715,8 +932,7 @@
                                 "$ref": "#/components/schemas/ReviewApplicationRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -730,6 +946,7 @@
                 "tags": [
                     "Profile"
                 ],
+                "summary": "Gets the current user's profile.",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -750,6 +967,253 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/studymaterials": {
+            "get": {
+                "tags": [
+                    "StudyMaterials"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/StudyMaterialResponse"
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/StudyMaterialResponse"
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/StudyMaterialResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "StudyMaterials"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateStudyMaterialRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateStudyMaterialRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateStudyMaterialRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudyMaterialResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudyMaterialResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudyMaterialResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/studymaterials/{id}": {
+            "get": {
+                "tags": [
+                    "StudyMaterials"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudyMaterialResponse"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudyMaterialResponse"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudyMaterialResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "StudyMaterials"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateStudyMaterialRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateStudyMaterialRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateStudyMaterialRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "StudyMaterials"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/studymaterials/{materialId}/assign/{internId}": {
+            "post": {
+                "tags": [
+                    "StudyMaterials"
+                ],
+                "parameters": [
+                    {
+                        "name": "materialId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "internId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "StudyMaterials"
+                ],
+                "parameters": [
+                    {
+                        "name": "materialId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "internId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             }
@@ -804,58 +1268,55 @@
                         "format": "int32"
                     },
                     "user": {
-                        "$ref": "#/components/schemas/PortalUser3"
+                        "$ref": "#/components/schemas/PortalUser"
                     },
                     "department": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
                 },
-                "nullable": true
-            },
-            "AdminProfile2": {
-                "type": "object",
-                "properties": {
-                    "userId": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "user": {
-                        "$ref": "#/components/schemas/PortalUser3"
-                    },
-                    "department": {
-                        "type": "string"
-                    }
-                },
-                "nullable": true
+                "additionalProperties": false
             },
             "AdminProfileResponse": {
                 "type": "object",
                 "properties": {
                     "department": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
                 },
-                "nullable": true
+                "additionalProperties": false
             },
             "AdminRegistrationRequest": {
                 "type": "object",
                 "properties": {
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "password": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "department": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "ApplicationStatus": {
-                "type": "integer"
+                "enum": [
+                    0,
+                    1,
+                    2
+                ],
+                "type": "integer",
+                "format": "int32"
             },
             "AppliedInternshipResponse": {
                 "type": "object",
@@ -869,7 +1330,8 @@
                         "format": "int32"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "backlogsCount": {
                         "type": "integer",
@@ -891,16 +1353,19 @@
                         "nullable": true
                     },
                     "duration": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "appliedAtUtc": {
                         "type": "string",
                         "format": "date-time"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "AppliedStudentResponse": {
                 "type": "object",
@@ -914,10 +1379,12 @@
                         "format": "int32"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "collegeName": {
                         "type": "string",
@@ -938,56 +1405,206 @@
                         "nullable": true
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "appliedAtUtc": {
                         "type": "string",
                         "format": "date-time"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "AuthResponse": {
                 "type": "object",
                 "properties": {
                     "accessToken": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "expiresAtUtc": {
                         "type": "string",
                         "format": "date-time"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "ChangePasswordRequest": {
                 "type": "object",
                 "properties": {
                     "currentPassword": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "newPassword": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
+            },
+            "CreateFeedbackRequest": {
+                "type": "object",
+                "properties": {
+                    "rating": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "comments": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateFeedbackTimerRequest": {
+                "type": "object",
+                "properties": {
+                    "startUtc": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endUtc": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateStudyMaterialRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "noteUrl": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "videoUrl": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "FeedbackResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "internshipId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "internshipName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "studentUserId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "studentName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "studentEmail": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "comments": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "submittedAtUtc": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "FeedbackResponsePagedResponse": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FeedbackResponse"
+                        },
+                        "nullable": true
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "totalCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "FeedbackTimerResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "internshipId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "startUtc": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endUtc": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "additionalProperties": false
             },
             "ForgotPasswordRequest": {
                 "type": "object",
                 "properties": {
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "ForgotPasswordResponse": {
                 "type": "object",
                 "properties": {
                     "message": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "resetLink": {
                         "type": "string",
                         "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "Internship": {
                 "type": "object",
@@ -997,7 +1614,8 @@
                         "format": "int32"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "backlogsCount": {
                         "type": "integer",
@@ -1019,63 +1637,25 @@
                         "nullable": true
                     },
                     "duration": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "studentsApplied": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/PortalUser"
-                        }
+                        },
+                        "nullable": true
                     },
                     "internshipApplications": {
-                        "type": "array",
-                        "items": {}
-                    }
-                }
-            },
-            "Internship2": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "backlogsCount": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "cgpa": {
-                        "type": "number",
-                        "format": "double",
-                        "nullable": true
-                    },
-                    "streamBranch": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "stipend": {
-                        "type": "number",
-                        "format": "double",
-                        "nullable": true
-                    },
-                    "duration": {
-                        "type": "string"
-                    },
-                    "studentsApplied": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/PortalUser3"
-                        }
-                    },
-                    "internshipApplications": {
-                        "type": "array",
-                        "items": {}
+                            "$ref": "#/components/schemas/InternshipApplication"
+                        },
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "InternshipApplication": {
                 "type": "object",
@@ -1089,14 +1669,14 @@
                         "format": "int32"
                     },
                     "internship": {
-                        "$ref": "#/components/schemas/Internship2"
+                        "$ref": "#/components/schemas/Internship"
                     },
                     "studentUserId": {
                         "type": "integer",
                         "format": "int32"
                     },
                     "studentUser": {
-                        "$ref": "#/components/schemas/PortalUser3"
+                        "$ref": "#/components/schemas/PortalUser"
                     },
                     "status": {
                         "$ref": "#/components/schemas/ApplicationStatus"
@@ -1116,15 +1696,46 @@
                         "nullable": true
                     },
                     "reviewedByUser": {
-                        "$ref": "#/components/schemas/PortalUser2"
+                        "$ref": "#/components/schemas/PortalUser"
                     }
-                }
+                },
+                "additionalProperties": false
+            },
+            "InternshipPagedResponse": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Internship"
+                        },
+                        "nullable": true
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "totalCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
             },
             "InternshipRequest": {
                 "type": "object",
                 "properties": {
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "backlogsCount": {
                         "type": "integer",
@@ -1146,35 +1757,43 @@
                         "nullable": true
                     },
                     "duration": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "studentIds": {
                         "type": "array",
                         "items": {
                             "type": "integer",
                             "format": "int32"
-                        }
+                        },
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "LoginRequest": {
                 "type": "object",
                 "properties": {
                     "username": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "password": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "PasswordActionResponse": {
                 "type": "object",
                 "properties": {
                     "message": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "PortalUser": {
                 "type": "object",
@@ -1184,13 +1803,16 @@
                         "format": "int32"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "password": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "role": {
                         "$ref": "#/components/schemas/UserRole"
@@ -1199,121 +1821,59 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Skill"
-                        }
+                        },
+                        "nullable": true
                     },
                     "studentProfile": {
                         "$ref": "#/components/schemas/StudentProfile"
                     },
                     "adminProfile": {
-                        "nullable": true
-                    },
-                    "internshipsApplied": {
-                        "type": "array",
-                        "items": {}
-                    },
-                    "internshipApplications": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/InternshipApplication"
-                        }
-                    },
-                    "reviewedInternshipApplications": {
-                        "type": "array",
-                        "items": {}
-                    }
-                }
-            },
-            "PortalUser2": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "password": {
-                        "type": "string"
-                    },
-                    "role": {
-                        "$ref": "#/components/schemas/UserRole"
-                    },
-                    "skills": {},
-                    "studentProfile": {
-                        "nullable": true
-                    },
-                    "adminProfile": {
-                        "nullable": true
-                    },
-                    "internshipsApplied": {},
-                    "internshipApplications": {},
-                    "reviewedInternshipApplications": {}
-                },
-                "nullable": true
-            },
-            "PortalUser3": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "password": {
-                        "type": "string"
-                    },
-                    "role": {
-                        "$ref": "#/components/schemas/UserRole"
-                    },
-                    "skills": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Skill"
-                        }
-                    },
-                    "studentProfile": {
-                        "$ref": "#/components/schemas/StudentProfile2"
-                    },
-                    "adminProfile": {
-                        "nullable": true
+                        "$ref": "#/components/schemas/AdminProfile"
                     },
                     "internshipsApplied": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Internship"
-                        }
+                        },
+                        "nullable": true
                     },
                     "internshipApplications": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/InternshipApplication"
-                        }
+                        },
+                        "nullable": true
                     },
                     "reviewedInternshipApplications": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                            "$ref": "#/components/schemas/InternshipApplication"
+                        },
+                        "nullable": true
+                    },
+                    "studyMaterials": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StudyMaterial"
+                        },
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "ResetPasswordRequest": {
                 "type": "object",
                 "properties": {
                     "token": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "newPassword": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "ReviewApplicationRequest": {
                 "type": "object",
@@ -1322,7 +1882,8 @@
                         "type": "string",
                         "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "Skill": {
                 "type": "object",
@@ -1332,13 +1893,18 @@
                         "format": "int32"
                     },
                     "stackName": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "users": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                            "$ref": "#/components/schemas/PortalUser"
+                        },
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "StudentProfile": {
                 "type": "object",
@@ -1348,10 +1914,11 @@
                         "format": "int32"
                     },
                     "user": {
-                        "$ref": "#/components/schemas/PortalUser3"
+                        "$ref": "#/components/schemas/PortalUser"
                     },
                     "collegeName": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "cgpa": {
                         "type": "number",
@@ -1368,43 +1935,14 @@
                         "nullable": true
                     }
                 },
-                "nullable": true
-            },
-            "StudentProfile2": {
-                "type": "object",
-                "properties": {
-                    "userId": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "user": {
-                        "$ref": "#/components/schemas/PortalUser3"
-                    },
-                    "collegeName": {
-                        "type": "string"
-                    },
-                    "cgpa": {
-                        "type": "number",
-                        "format": "double",
-                        "nullable": true
-                    },
-                    "backlogsCount": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "streamBranch": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                },
-                "nullable": true
+                "additionalProperties": false
             },
             "StudentProfileResponse": {
                 "type": "object",
                 "properties": {
                     "collegeName": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "cgpa": {
                         "type": "number",
@@ -1424,25 +1962,37 @@
                         "type": "array",
                         "items": {
                             "type": "string"
-                        }
+                        },
+                        "nullable": true
+                    },
+                    "assignedStudyMaterials": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StudyMaterialResponse"
+                        },
+                        "nullable": true
                     }
                 },
-                "nullable": true
+                "additionalProperties": false
             },
             "StudentRegistrationRequest": {
                 "type": "object",
                 "properties": {
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "password": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "collegeName": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "cgpa": {
                         "type": "number",
@@ -1463,9 +2013,80 @@
                         "items": {
                             "type": "integer",
                             "format": "int32"
-                        }
+                        },
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
+            },
+            "StudyMaterial": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "noteUrl": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "videoUrl": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "assignedTo": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PortalUser"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "StudyMaterialResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "noteUrl": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "videoUrl": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateStudyMaterialRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "noteUrl": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "videoUrl": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
             },
             "UserProfileResponse": {
                 "type": "object",
@@ -1475,13 +2096,16 @@
                         "format": "int32"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "role": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "studentProfile": {
                         "$ref": "#/components/schemas/StudentProfileResponse"
@@ -1493,12 +2117,19 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/AppliedInternshipResponse"
-                        }
+                        },
+                        "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "UserRole": {
-                "type": "integer"
+                "enum": [
+                    0,
+                    1
+                ],
+                "type": "integer",
+                "format": "int32"
             },
             "WeatherForecast": {
                 "type": "object",
@@ -1513,28 +2144,43 @@
                     },
                     "temperatureF": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "readOnly": true
                     },
                     "summary": {
                         "type": "string",
                         "nullable": true
                     }
-                }
+                },
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "description": "Enter a valid JWT token in the form: Bearer {token}",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     },
+    "security": [
+        {
+            "Bearer": []
+        }
+    ],
     "tags": [
         {
-            "name": "Auth"
+            "name": "Auth",
+            "description": "Handles authentication, registration, and password management endpoints."
         },
         {
-            "name": "Internships"
+            "name": "Internships",
+            "description": "Handles internship browsing, application, review, and admin maintenance operations."
         },
         {
-            "name": "Profile"
-        },
-        {
-            "name": "WeatherForecast"
+            "name": "Profile",
+            "description": "Exposes the authenticated user's profile information."
         }
     ]
 }

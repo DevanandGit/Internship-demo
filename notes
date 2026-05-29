@@ -1,4 +1,16 @@
-create angular frontend for the asp.net backend application. the angular project should ng serve. 
-here i am developing web app for both admin and user. create registration page for students, login page. page to display internships, profile page. profile page should contain reset and change passwords functionality and should list all the data appearing on the profile api. add proper validations on the registration and login forms. all api calls should be defined on a single service file. 
 
-when the user logges in is admin, they should be redirected to the admin dashboard where they can see all the internships and applications. internship can be created there, edited and deleted. admin can also approve or reject applications from the dashboard. admin can see all the feedbacks. skills can be added, edited and deleted from the admin dashboard. feedback timer can be set from the admin dashboard. 
+admin can add study material to the system. The study material includes a name, a note URL, and a video URL. 
+add Study material option on navbar if the user is admin.there admin can see all the study materials on the system. there should be option to create new study  material. 
+on creating study material, on frontend show upload button for notes and videos. on uploading take its location path and pass it to string as on backend. also on each study material there should be option to edit and delete the study material. admin can take the detailed view of the study material and when taking detailed view, there should be option to assign study material to students or delete study material from students. admin can assign study material to students by selecting the students from the list of students in the system.
+on study material detailed view. add extra two button along with update and delete called, assign and unassign. on normal listing there should be only update and delete button. 
+POST /api/studymaterials/{{materialId}}/assign/{{internId}}
+
+when the user logged in is student, they can only see the study materials and can see study material in detail view. 
+
+POST /api/study-materials
+body: {
+  "name": "string",
+  "noteUrl": "string",
+  "videoUrl": "string"
+}
+

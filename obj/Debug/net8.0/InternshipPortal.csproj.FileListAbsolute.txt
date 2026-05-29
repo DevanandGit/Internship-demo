@@ -129,3 +129,4 @@
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/tsconfig.app.json
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/tsconfig.json
 /Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/frontend/internship-frontend/tsconfig.spec.json
+/Users/dejo/Desktop/InternshipPortal/Internship/bin/Debug/net8.0/InternshipPortal.staticwebassets.runtime.json
